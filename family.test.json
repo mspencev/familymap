@@ -1,0 +1,159 @@
+{
+    "LJMQ-LWZ": {
+        "name": "Donald Lee Vickers",
+        "gender": "Male",
+        "lifespan": "Living",
+        "birthPlace": "Salt Lake City, Utah, United States",
+        "familiesAsParent": [],
+        "id": "LJMQ-LWZ",
+        "flags": 16,
+        "parentIds": [
+            "KWC7-76D",
+            "KWC7-766"
+        ]
+    },
+    "KWHY-L6R": {
+        "name": "Mark Spencer Vickers",
+        "gender": "Male",
+        "lifespan": "1979-Living",
+        "birthDate": "2 May 1979",
+        "birthPlace": "Hayward, Alameda, California, United States",
+        "ascendancyNumber": "1",
+        "descendancyNumber": "1",
+        "familiesAsParent": [
+            {
+                "parent1": {
+                    "resource": "#KWHY-L6R",
+                    "resourceId": "KWHY-L6R"
+                },
+                "parent2": {
+                    "resource": "#LJMQ-LS4",
+                    "resourceId": "LJMQ-LS4"
+                },
+                "children": [
+                    {
+                        "resource": "#LJMQ-2TW",
+                        "resourceId": "LJMQ-2TW"
+                    },
+                    {
+                        "resource": "#LJMQ-LMG",
+                        "resourceId": "LJMQ-LMG"
+                    },
+                    {
+                        "resource": "#LJMQ-L77",
+                        "resourceId": "LJMQ-L77"
+                    }
+                ]
+            }
+        ],
+        "familiesAsChild": [
+            {
+                "parent1": {
+                    "resource": "#LJMQ-LWZ",
+                    "resourceId": "LJMQ-LWZ"
+                },
+                "parent2": {
+                    "resource": "#LJMQ-L3G",
+                    "resourceId": "LJMQ-L3G"
+                },
+                "children": [
+                    {
+                        "resource": "#KWHY-L6R",
+                        "resourceId": "KWHY-L6R"
+                    }
+                ]
+            }
+        ],
+        "id": "KWHY-L6R",
+        "flags": 16,
+        "parentIds": [
+            "LJMQ-LWZ",
+            "LJMQ-L3G"
+        ]
+    },
+    "KWC7-76D": {
+        "name": "Vallon Sperry Vickers",
+        "gender": "Male",
+        "lifespan": "1915-2002",
+        "birthDate": "9 December 1915",
+        "birthPlace": "Nephi, Juab, Utah, United States",
+        "deathDate": "21 February 2002",
+        "deathPlace": "Salt Lake City, Salt Lake, Utah, United States",
+        "familiesAsParent": [],
+        "id": "KWC7-76D",
+        "flags": 16,
+        "parentIds": [
+            "KWZK-911",
+            "KWZK-SMM"
+        ]
+    },
+    "KWZK-911": {
+        "name": "Wallace Joseph Vickers",
+        "gender": "Male",
+        "lifespan": "1889-1960",
+        "birthDate": "15 June 1889",
+        "birthPlace": "Nephi, Juab, Utah, United States",
+        "deathDate": "30 October 1960",
+        "deathPlace": "Logan, Cache, Utah, United States",
+        "familiesAsParent": [],
+        "id": "KWZK-911",
+        "flags": 0,
+        "parentIds": [
+            "KWJ8-WS4",
+            "KWJ8-WSW"
+        ]
+    },
+    "KWJ8-WS4": {
+        "name": "Thomas Vickers",
+        "gender": "Male",
+        "lifespan": "1847-1931",
+        "birthDate": "28 April 1847",
+        "birthPlace": "Farnsfield, Nottinghamshire, England, United Kingdom",
+        "deathDate": "23 June 1931",
+        "deathPlace": "Nephi, Juab, Utah, United States",
+        "familiesAsParent": [],
+        "id": "KWJ8-WS4",
+        "flags": 0,
+        "parentIds": [
+            "KWNW-CR2",
+            "MQKF-DFW"
+        ]
+    },
+    "account": {
+        "id": "cis.user.MMMM-NQD2",
+        "contactName": "Mark Vickers",
+        "helperAccessPin": "36627",
+        "givenName": "Mark Spencer",
+        "familyName": "Vickers",
+        "email": "markvickers@gmail.com",
+        "country": "USA",
+        "gender": "MALE",
+        "birthDate": "02 May 1979",
+        "phoneNumber": "890-5917",
+        "mobilePhoneNumber": "5057175415",
+        "mailingAddress": "5948 Taurus Ave. NW\nAlbuquerque, New Mexico 87114",
+        "preferredLanguage": "en",
+        "displayName": "Mark Spencer Vickers",
+        "personId": "KWHY-L6R",
+        "treeUserId": "MMD5-ML6",
+        "accessToken": "2a35b23f-ac45-4b6f-aa16-93bf3202d566-aws-prod",
+        "remoteAddress": "73.26.189.56",
+        "getResearchLogSignedUrl": "https://storage.googleapis.com/puzzilla_accounts/MMD5-ML6?GoogleAccessId=1085932868194-4e58ohtd85sp75683vmnbns8ig8p6nuq@developer.gserviceaccount.com&Expires=1532319350&Signature=Q8%2BYTOU%2FfjCi2RoMPD4b%2FHHiBZ3JuLVChpHR5y%2FYAe3G3eajKdnVbypY8meHafmKnsNCyRO2U6J9063kmUwkIcDTQzekG4IiXuVmk97b9Ymr4qVo5iLMtliFg9T8%2BOCk8pUReTfHlrWJPiYZXpXxIbuDp50u%2BTlG0Fj8xCApW94%3D",
+        "putResearchLogSignedUrl": "https://storage.googleapis.com/puzzilla_accounts/MMD5-ML6?GoogleAccessId=1085932868194-4e58ohtd85sp75683vmnbns8ig8p6nuq@developer.gserviceaccount.com&Expires=1532319350&Signature=c4%2F6vu%2Fhtxl4RQP57wsJ0fIdCmPKnSpi9BkfLxt9scQAXZpnu%2FH4z6xwT0pOlnTe4nDjyH%2FKVj3K%2B6g%2Fb7ecf9HJ%2BuXf5lnwpyd0g6EPar9tMCXxVNxu%2F3Aa6BnL232d%2BQKfTJ4dluc2ETXw9dsbut%2B1vRycQk9bZhG9Aeeg%2Bxw%3D",
+        "accountType": "basic",
+        "updated": "1532313350",
+        "ldsOrdsAccessible": true
+    },
+    "browserChecked": "true",
+    "contactPermissionRecorded": "true",
+    "enableNewPersons": "null",
+    "info": {
+        "search10NewFeature": true
+    },
+    "length": 1928,
+    "presentationMode": "null",
+    "puzzillaExtensionParams": {
+        "gender": "male"
+    },
+    "storageVersion": "5"
+}
