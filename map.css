@@ -9,29 +9,64 @@ body {
   width: 100vw;
   height: 100vh;
 } */
-svg rect {
-  fill: #2A2C39;   /* map background colour */
+
+
+/* svg rect {
+  fill: #2A2C39;   /* map background colour /
 }
 .country{
-  fill: #d0d0d0;   /* country colour */
-  stroke: #2A2C39; /* country border colour */
-  stroke-width: 1; /* country border width */
+  fill: #d0d0d0;   /* country colour /
+  stroke: #2A2C39; /* country border colour /
+  stroke-width: 1; /* country border width /
 }
 .country-on{
-  fill: #4B5358;   /* highlight colour for selected country */
+  fill: #4B5358;   /* highlight colour for selected country /
 }
 .countryLabel{
-  display: none;   /* hide all country labels by default */
+  display: none;   /* hide all country labels by default /
   stroke: red;
   pointer-events: none;
 }
 .countryName{
-  fill: #FFFAFF;   /* country label text colour */
+  fill: #FFFAFF;   /* country label text colour *
 }
 .countryLabelBg{
-  /* fill: #30BCED;    */
+  /* fill: #30BCED;    /
   opacity: 0;
-}
+} */
+
+/*  from mbostock: */
+
+svg {
+    background: rgb(196, 194, 194);
+  }
+  
+  .sphere {
+    fill: rgb(196, 194, 194);
+  }
+  
+  .land {
+    fill: rgb(196, 194, 194);
+  }
+  
+  .boundary {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+  
+  .overlay {
+    fill: none;
+    pointer-events: all;
+  }
+
+
+
+
+
+
 
 .tooltip {	
     position: absolute;			
