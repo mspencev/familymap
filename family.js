@@ -2,22 +2,30 @@
  const people = [];
  const idToIdx = {};
 
+//  var {formatFamilyData} = require('./formatFamilyData');
+
+// import formatFamilyData from './formatFamilyData.js';
+// import { log1, log2 } from './formatFamilyData.js';
+
 function fetchFamilyTree() {
+
     console.log('fetching family tree');
 
-    // d3.json("https://mspencev.github.io/d3/map/family/family.json", function(err, json) {
-    d3.json("family.test.json", function (err, json) {
-    // d3.json("family.12gen.json", function (err, json) {
+    //d3.json("https://mspencev.github.io/d3/map/family/family.json", function(err, json) {
+    // d3.json("family.test.json", function (err, json) {
+    d3.text("family.12gen.orig.json", function (err, text) {
+    // d3.text("family.test.orignal.txt", function (err, text) {
 
-        if (err) console.log("error fetching data");
+        json = formatFamilyData(text);
+        if (err) {
+            console.log("error fetching data: ", err);
+            return;
+        }
         
         var personIdExp = RegExp('^.{4}-.{3}$');
 
         // Filter out any funny data, which we have.
         for(entry in json) {
-            if(!personIdExp.test(entry)){
-                continue;
-            }
             idToIdx[entry] = people.length;
             people.push(json[entry]);
         }
@@ -38,7 +46,7 @@ function fetchFamilyTree() {
 
             renderLines();
             renderMarkers();
-        }, 2000);
+        }, 8000);
         
     });
 }
@@ -58,13 +66,17 @@ function fetchLocations() {
         return theArray.indexOf(place) === index; // Make unique
     });
 
+    let cnt = 0;
     places.forEach(function (place, idx) {
+        
         url += `&location=${place}`;
         if (idx % 90 === 0 && idx > 0) {
             // Limit of 100 locations for each batch reuqest
             fetchMapquestGeocodes(url);
             url = geocodeUrl; // reset
         }
+
+        cnt = cnt + 1;
     });
 
     fetchMapquestGeocodes(url);
@@ -72,7 +84,7 @@ function fetchLocations() {
 
 function fetchMapquestGeocodes(url){
     ++geocodeCalls;
-    console.log("Made Request!");
+    console.log("Made Request!, numcalls=", geocodeCalls, ", url=", url);
 
     fetch(url)
         .then((response) => {
@@ -84,18 +96,24 @@ function fetchMapquestGeocodes(url){
 }
 
 function handleMapquestGeocode(response) {
+    console.log("Got Response!");
+
     response.results.forEach( (result) => {
+
         if(!result.locations[0]){
+            console.log("Response had no locations");
+
             return;
         }
+
         geocodes[result.providedLocation.location] = {
             lat: result.locations[0].latLng.lat,
             lon: result.locations[0].latLng.lng
         };
     });
 
-    console.log("Got Response!");
-    ++geocodeResponses;
+    geocodeResponses++;
+    console.log('geocode responses: ', geocodeResponses);
 }
 
 function promiseTimeout(ms, promise){
@@ -119,6 +137,7 @@ function promiseTimeout(ms, promise){
   
 
 function gotAllResponses() {
+    console.log("got all responses");
     const gotAllPromise = new Promise( (resolve, reject) => {
         let done = geocodeCalls === geocodeResponses;
         while(!done){
@@ -140,9 +159,15 @@ function renderMarkers() {
         .attr('class', 'marker')
         .attr("cx", (d) => { 
             const latlon = geocodes[d.birthPlace];
+            if(!latlon) {
+                return projection(0, 0)[0];
+            }
             return projection( [latlon.lon, latlon.lat] )[0]; })
         .attr("cy", (d) => { 
             const latlon = geocodes[d.birthPlace];
+            if(!latlon) {
+                return projection(0, 0)[0];
+            }
             return projection( [latlon.lon, latlon.lat])[1]; })
         .attr('class', 'marker')
         .attr('r', 3)
@@ -182,17 +207,24 @@ function getLines() {
         if(!person.birthPlace || person.birthPlace === '') {
             return;
         }
+        // parentIds
+        // if(!person.familiesAsChild || !person.familiesAsChild[0]){
+        //     return;
+        // }
 
-        if(!person.familiesAsChild || !person.familiesAsChild[0]){
+        if(!person.parentIds || !person.parentIds[0]) {
             return;
         }
 
         // TODO what if the array has more than one?
-        const asChild = person.familiesAsChild[0];
+        // const asChild = person.familiesAsChild[0];
 
         const parents = [];
-        if(asChild.parent1) { parents.push( people[idToIdx[asChild.parent1.resourceId]] ); }
-        if(asChild.parent2) { parents.push( people[idToIdx[asChild.parent2.resourceId]] ); }
+        // if(asChild.parent1) { parents.push( people[idToIdx[asChild.parent1.resourceId]] ); }
+        // if(asChild.parent2) { parents.push( people[idToIdx[asChild.parent2.resourceId]] ); }
+        person.parentIds.forEach((id) => {
+            parents.push(people[idToIdx[id]] );
+        });
 
         parents.forEach( (parent) => {
             if(!parent || !parent.birthPlace || parent.birthPlace === '') {
