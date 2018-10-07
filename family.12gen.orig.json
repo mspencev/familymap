@@ -1632,7 +1632,7 @@ KWCZ-LH8
 "{"name":"Frederick Charles Ralph","gender":"Male","lifespan":"1872-1953","birthDate":"29 November 1872","birthPlace":"Plain City, Weber, Utah, United States","deathDate":"25 March 1953","deathPlace":"Provo, Utah, Utah, United States","familiesAsParent":[],"id":"KWCZ-LH8","flags":0,"parentIds":["KWZM-53Y","KWJ8-SH6"]}"
 KWHY-L6R
 :
-"{"name":"Mark Spencer Vickers","gender":"Male","lifespan":"1979-Living","birthDate":"2 May 1979","birthPlace":"Hayward, Alameda, California, United States","ascendancyNumber":"1","descendancyNumber":"1","familiesAsParent":[{"parent1":{"resource":"#KWHY-L6R","resourceId":"KWHY-L6R"},"parent2":{"resource":"#LJMQ-LS4","resourceId":"LJMQ-LS4"},"children":[{"resource":"#LJMQ-2TW","resourceId":"LJMQ-2TW"},{"resource":"#LJMQ-LMG","resourceId":"LJMQ-LMG"},{"resource":"#LJMQ-L77","resourceId":"LJMQ-L77"}]}],"familiesAsChild":[{"parent1":{"resource":"#LJMQ-LWZ","resourceId":"LJMQ-LWZ"},"parent2":{"resource":"#LJMQ-L3G","resourceId":"LJMQ-L3G"},"children":[{"resource":"#KWHY-L6R","resourceId":"KWHY-L6R"}]}],"id":"KWHY-L6R","flags":16,"parentIds":["LJMQ-LWZ","LJMQ-L3G"]}"
+"{"name":"Mark Spencer Vickers","gender":"Male","lifespan":"1979-Living","birthDate":"1 January 1979","birthPlace":"Hayward, Alameda, California, United States","ascendancyNumber":"1","descendancyNumber":"1","familiesAsParent":[{"parent1":{"resource":"#KWHY-L6R","resourceId":"KWHY-L6R"},"parent2":{"resource":"#LJMQ-LS4","resourceId":"LJMQ-LS4"},"children":[{"resource":"#LJMQ-2TW","resourceId":"LJMQ-2TW"},{"resource":"#LJMQ-LMG","resourceId":"LJMQ-LMG"},{"resource":"#LJMQ-L77","resourceId":"LJMQ-L77"}]}],"familiesAsChild":[{"parent1":{"resource":"#LJMQ-LWZ","resourceId":"LJMQ-LWZ"},"parent2":{"resource":"#LJMQ-L3G","resourceId":"LJMQ-L3G"},"children":[{"resource":"#KWHY-L6R","resourceId":"KWHY-L6R"}]}],"id":"KWHY-L6R","flags":16,"parentIds":["LJMQ-LWZ","LJMQ-L3G"]}"
 KWJ1-RGY
 :
 "{"name":"Jane Jean Rio Griffiths","gender":"Female","lifespan":"1810-1883","birthDate":"8 May 1810","birthPlace":"Stratford, Essex, England, United Kingdom","deathDate":"21 July 1883","deathPlace":"Antioch, Contra Costa, California, United States","familiesAsParent":[],"id":"KWJ1-RGY","flags":0,"parentIds":["LZ5C-MZ8","L4HQ-C73"]}"
@@ -3984,10 +3984,10 @@ LJKZ-B1T
 "{"name":"Marah Mary Smith","gender":"Female","lifespan":"1677-1742","birthDate":"10 March 1677","birthPlace":"Hatfield, Hampshire, Massachusetts Bay, British Colonial America","deathDate":"28 February 1742","deathPlace":"West Springfield, Massachusetts Bay, British Colonial America","familiesAsParent":[],"id":"LJKZ-B1T","flags":0,"parentIds":["LBL3-C51","9JHH-SLR"]}"
 LJMQ-L3G
 :
-"{"name":"Marilyn Seegmiller","gender":"Female","lifespan":"Living","familiesAsParent":[],"id":"LJMQ-L3G","flags":16,"parentIds":["KWCZ-L4X","KWCZ-L4N"]}"
+"{"name":"Marilyn Seegmiller","gender":"Female","lifespan":"Living","birthDate":"1 January 1944","birthPlace":"Ogden, UT, United States of America","familiesAsParent":[],"id":"LJMQ-L3G","flags":16,"parentIds":["KWCZ-L4X","KWCZ-L4N"]}"
 LJMQ-LWZ
 :
-"{"name":"Donald Lee Vickers","gender":"Male","lifespan":"Living","familiesAsParent":[],"id":"LJMQ-LWZ","flags":16,"parentIds":["KWC7-76D","KWC7-766"]}"
+"{"name":"Donald Lee Vickers","gender":"Male","lifespan":"Living","birthDate":"1 January 1943","birthPlace":"Salt Lake City, UT, United States of America","familiesAsParent":[],"id":"LJMQ-LWZ","flags":16,"parentIds":["KWC7-76D","KWC7-766"]}"
 LJRX-M38
 :
 "{"name":"Thomas Naylor","gender":"Male","lifespan":"1654-1720","birthDate":"1654","birthPlace":"Burnsall, Yorkshire, England, United Kingdom","deathDate":"1720","deathPlace":"Burnsall, North Yorkshire, England, United Kingdom","familiesAsParent":[],"id":"LJRX-M38","flags":0}"
