@@ -11,7 +11,7 @@ function fetchFamilyTree() {
 
     console.log('fetching family tree');
 
-    d3.json("https://mspencev.github.io/d3/map/family/family.12gen.orig.json", function(err, json) {
+    d3.json("https://mspencev.github.io/familymap/family.12gen.orig.json", function(err, json) {
     // d3.json("family.test.json", function (err, json) {
     // d3.text("family.12gen.orig.json", function (err, text) {
     // d3.text("family.test.orignal.txt", function (err, text) {
@@ -55,7 +55,7 @@ function fetchFamilyTree() {
 }
 
 function loadLocations() {
-    d3.text("https://mspencev.github.io/d3/map/family/geocodes.json", function (err, text) {
+    d3.text("https://mspencev.github.io/familymap/geocodes.json", function (err, text) {
     // d3.text("geocodes.json", function (err, text) {
         geocodes = JSON.parse(text);
 
