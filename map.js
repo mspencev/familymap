@@ -43,47 +43,13 @@ function zoomed(){
         d3.event.transform.x + ", " + d3.event.transform.y + ")scale("+d3.event.transform.k+")");
     g.selectAll(".marker")
         .attr("r", function(){
-            var self = d3.select(this);
-            var r = 8 / d3.event.transform.k;  // set radius according to scale
-            // self.style("stroke-width", r < 4 ? (r < 2 ? 0.5 : 1) : 2);  // scale stroke-width
+            return r = 3 / d3.event.transform.k;  // radious is inversely proportional to scale
+        });
+    g.selectAll("line")
+        .style("stroke-width", function(){
+            const r = 1 / d3.event.transform.k;  // width is inversely proportional to scale
             return r;
         });
-
-
-    // g.attr("transform", d3.event.transform);
-    console.log('transform: ', d3.event.transform);
-//   const t = {k: 1, x: d3.event.transform.x, y: d3.event.transform.y};
-//   d3.selectAll('.marker').attr('transform', t);
-//   d3.selectAll('line').attr('transform', t);
-
-// d3.event.transform.scale[0] = 1;
-// d3.event.transform.k = 1;
-    // TODO try doing a reverse scale
-    // const inverseTransform = d3.event.transform.scale(-1);
-    // console.log("inverse t = ", inverseTransform);
-    // d3.selectAll('.marker').attr('transform', inverseTransform);
-    // d3.selectAll('.marker').attr('transform', d3.event.transform);
-    // d3.selectAll('.marker').attr('transform', "translate(" + d3.event.transform.translateX + "," + d3.event.transform.translateY + ") scale(1.0)");
-
-    d3.selectAll('line').attr('transform', d3.event.transform);
-
-    // var marker = document.getElementById('Layer_1');
-    // var currentTransf = getTransformation(marker.getAttribute("transform"));
-  
-    // var currentx = currentTransf.translateX;
-    // var currenty = currentTransf.translateY;
-  
-    // var center = d3.mouse(marker);
-  
-    // var dx = currentx - center[0] + 43;
-    // var dy = currenty - center[1];
-  
-    // var newx = currentx + dx * dscale / (38.5/2);
-    // var newy = currenty + dy * dscale / (39.8/2);
-          
-    // d3.selectAll(".marker").attr("transform", "translate(" + newx + "," + newy + ") scale(" + d3.event.transform.k + ")");
-
-
 
 }   
 

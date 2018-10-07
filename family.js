@@ -1,4 +1,4 @@
- const geocodes = {}; // Place to lat lon mapping.
+ let geocodes = {}; // Place to lat lon mapping.
  const people = [];
  const idToIdx = {};
 
@@ -32,30 +32,47 @@ function fetchFamilyTree() {
 
         console.log('fetching geocodes');
 
-        fetchLocations();
+        // fetchLocations();
+        loadLocations();
+
         // gotAllResponses().then(() => {
         //     console.log("GOT ALL RESPONDED!");
         //     renderMap();
         // })
-        setTimeout( () => {
-            if(Object.keys(geocodes).length === 0) {
-                console.log("Failed to get the geocodes in time");
-                return;
-            }
-            console.log('Rendering lines and markers');
 
-            renderLines();
-            renderMarkers();
-        }, 8000);
+        // setTimeout( () => {
+        //     if(Object.keys(geocodes).length === 0) {
+        //         console.log("Failed to get the geocodes in time");
+        //         return;
+        //     }
+        //     console.log('Rendering lines and markers');
+
+        //     renderLines();
+        //     renderMarkers();
+        // }, 8000);
         
     });
+}
+
+function loadLocations() {
+    d3.text("geocodes.json", function (err, text) {
+        geocodes = JSON.parse(text);
+
+        renderLines();
+        renderMarkers();
+    });
+
 }
 
 let geocodeCalls = 0;
 let geocodeResponses = 0;
 
 function fetchLocations() {
-    let geocodeUrl = 'http://www.mapquestapi.com/geocoding/v1/batch?key=zX5pvmcAq3RBuI4WkGpRBHLLcRMnDweB';
+    // let geocodeUrl = 'http://www.mapquestapi.com/geocoding/v1/batch?key=zX5pvmcAq3RBuI4WkGpRBHLLcRMnDweB';
+    let geocodeUrl = 'http://www.mapquestapi.com/geocoding/v1/batch?key=JIfLGNP9oFfewqidQT28WIzCFuYoUIwe';
+
+    
+
 
     let url = geocodeUrl;
     const places = people.filter(function (person) {
@@ -94,6 +111,7 @@ function fetchMapquestGeocodes(url){
             handleMapquestGeocode(response);
         });
 }
+
 
 function handleMapquestGeocode(response) {
     console.log("Got Response!");
@@ -152,19 +170,21 @@ function gotAllResponses() {
 
 
 function renderMarkers() {
-    // add circles to svg
-    svg.selectAll("circle")
+    // add circles to group g
+    g.selectAll("circle")
         .data(people).enter()
         .append("circle")
         .attr('class', 'marker')
         .attr("cx", (d) => { 
-            const latlon = geocodes[d.birthPlace];
+            const latlon = geocodes[d.birthPlace]; 
+
             if(!latlon) {
                 return projection(0, 0)[0];
             }
             return projection( [latlon.lon, latlon.lat] )[0]; })
         .attr("cy", (d) => { 
             const latlon = geocodes[d.birthPlace];
+
             if(!latlon) {
                 return projection(0, 0)[0];
             }
@@ -187,7 +207,7 @@ function renderLines() {
 
     let lines = getLines();
 
-    svg.selectAll("line")
+    g.selectAll("line")
         .data(lines).enter()
         .append("line")
         .attr('class', 'line')
@@ -204,24 +224,16 @@ function getLines() {
     let lines = [];
 
     people.forEach( (person) => {
+        
         if(!person.birthPlace || person.birthPlace === '') {
             return;
         }
-        // parentIds
-        // if(!person.familiesAsChild || !person.familiesAsChild[0]){
-        //     return;
-        // }
 
         if(!person.parentIds || !person.parentIds[0]) {
             return;
         }
-
-        // TODO what if the array has more than one?
-        // const asChild = person.familiesAsChild[0];
-
+        
         const parents = [];
-        // if(asChild.parent1) { parents.push( people[idToIdx[asChild.parent1.resourceId]] ); }
-        // if(asChild.parent2) { parents.push( people[idToIdx[asChild.parent2.resourceId]] ); }
         person.parentIds.forEach((id) => {
             parents.push(people[idToIdx[id]] );
         });
@@ -244,6 +256,7 @@ function getLines() {
 function createLine(parent, child) {
     const parentLatLon = geocodes[parent.birthPlace];
     const childLatLon = geocodes[child.birthPlace];
+
     const parentPt = projection([parentLatLon.lon, parentLatLon.lat]);
     const childPt = projection([childLatLon.lon, childLatLon.lat]);
 
