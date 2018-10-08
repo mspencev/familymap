@@ -11,7 +11,7 @@ function fetchFamilyTree() {
 
     console.log('fetching family tree');
 
-    d3.json("https://mspencev.github.io/familymap/family.12gen.orig.json", function(err, json) {
+    d3.json("https://mspencev.github.io/familymap/family.12gen.orig.json", function(err, text) {
     // d3.json("family.test.json", function (err, json) {
     // d3.text("family.12gen.orig.json", function (err, text) {
     // d3.text("family.test.orignal.txt", function (err, text) {
