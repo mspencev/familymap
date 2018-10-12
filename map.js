@@ -3,8 +3,21 @@
 
 
 const map = d3.select("#map-holder");
-const width = map.node().getBoundingClientRect().width;
-const height = width ;
+
+let width;
+let height;
+
+
+const setDimensions = () => {
+    width = map.node().getBoundingClientRect().width;
+    height = map.node().getBoundingClientRect().height;
+
+    console.log('width = ', width);
+}
+
+
+
+let topoCountries = undefined;
 
 const projection = d3.geoEquirectangular(); //geoMercator(); 
 const path = d3.geoPath().projection(projection);
@@ -15,29 +28,55 @@ const zoom = d3.zoom()
     .extent([[0, 0], [width, height]])
     .on("zoom", zoomed);
 
-const svg = map.append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .call(zoom);
+let svg;
+let g;
 
-const g = svg.append("g");
 
-      
+
+const onResize = () => {
+    map.select('svg').remove();
+    drawMap();
+}
+
+const drawMap = () => {
+    
+    setDimensions();
+
+    svg = map.append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(zoom);
+
+    g = svg.append("g");
+
+
+    g.selectAll("path")
+    .data(topoCountries)
+    .enter()
+        .append("path")
+        .attr("d", path)
+        .attr('class', 'land');
+
+    g.append('g')
+        .attr('id', 'boundary-group')
+        .attr('class', 'boundary')
+        .selectAll('boundary')
+            .data(topoCountries)
+            .enter().append('path')
+            .attr('d', path)
+            .attr('stroke-width', 1);
+}
+
 d3.json("world-atlas-110m.json", function(error, world) {
   if (error) throw error;
 
-    g.selectAll("path")
-       .data(topojson.feature(world, world.objects.countries).features)
-       .enter().append("path")
-       .attr("d", path);
+    topoCountries = topojson.feature(world, world.objects.countries).features;
 
-    g.append("path")
-       .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-       .attr("class", "boundary")
-       .attr("d", path);
-  
+    drawMap();
+
 });
     
+
 function zoomed(){
     g.attr("transform","translate("+ 
         d3.event.transform.x + ", " + d3.event.transform.y + ")scale("+d3.event.transform.k+")");
@@ -50,6 +89,11 @@ function zoomed(){
             const r = 1 / d3.event.transform.k;  // width is inversely proportional to scale
             return r;
         });
+
+    g.select('#boundary-group')
+        .selectAll('path')
+        .attr('stroke-width', 2 / d3.event.transform.k);
+
 
 }   
 

@@ -1,10 +1,27 @@
-body {
-  margin: 0;
-  background-color: #2A2C39;
-  font-family: 'Yanone Kaffeesatz', sans-serif;
-  font-weight: 200;
-  font-size: 10px;
+html {
+    height: 100%
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.map-div {
+    flex: 1;
+    height: 100%;
+}
+/* 
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: #2A2C39;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+} */
 /* #map-holder {
   width: 100vw;
   height: 100vh;
@@ -38,7 +55,8 @@ body {
 /*  from mbostock: */
 
 svg {
-    background: rgb(196, 194, 194);
+    background: rgb(153, 221, 243);
+    flex: 1;
   }
   
   .sphere {
@@ -46,12 +64,12 @@ svg {
   }
   
   .land {
-    fill: rgb(196, 194, 194);
+    fill: rgb(97, 146, 103);
   }
   
   .boundary {
     fill: none;
-    stroke: #fff;
+    stroke: #b4c5da;
     stroke-linejoin: round;
     stroke-linecap: round;
     vector-effect: non-scaling-stroke;

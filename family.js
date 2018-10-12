@@ -2,6 +2,11 @@
  const people = [];
  const idToIdx = {};
 
+
+window.addEventListener('resize', () =>{
+    onResize(); // TODO ugly
+    // redrawFamily();
+});
 //  var {formatFamilyData} = require('./formatFamilyData');
 
 // import formatFamilyData from './formatFamilyData.js';
