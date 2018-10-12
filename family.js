@@ -5,8 +5,30 @@
 
 window.addEventListener('resize', () =>{
     onResize(); // TODO ugly
+    updateSliderTootilp();
     // redrawFamily();
 });
+
+const slider = document.getElementById('gen-range');
+const sliderTooltip = document.getElementsByClassName('slider-tooltip')[0];
+sliderTooltip.innerHTML = '2 generations'; // default to 2
+
+slider.addEventListener('input', () => {
+    sliderTooltip.innerHTML = `${slider.value} generations`;
+
+    updateSliderTootilp();
+});
+
+
+updateSliderTootilp = () => {
+    
+    var sliderPos = slider.value / slider.max;
+
+    var pixelPostion = (slider.clientWidth * sliderPos) - 50;
+
+    sliderTooltip.style.left = `${pixelPostion}px`;
+}
+
 //  var {formatFamilyData} = require('./formatFamilyData');
 
 // import formatFamilyData from './formatFamilyData.js';
