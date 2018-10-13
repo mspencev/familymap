@@ -1,22 +1,29 @@
- let geocodes = {}; // Place to lat lon mapping.
- const people = [];
- const idToIdx = {};
+let geocodes = {}; // Place to lat lon mapping.
+const people = []; // unordered list of all the people
+const idToIdx = {}; // person ID to index into people
+const generations = []; // An array of arrays - index = generation, value = list of people.
 
+const peopleWithoutLocations = {}; // {id: person}
 
-window.addEventListener('resize', () =>{
-    onResize(); // TODO ugly
-    updateSliderTootilp();
-    // redrawFamily();
-});
+let visibleGenerations = 1;
+const defaultNumGens = 4;
+
+const LOCATION_OF_DEATH='location_of_death';
+const LOCATION_OF_CHILD='location_of_child';
 
 const slider = document.getElementById('gen-range');
 const sliderTooltip = document.getElementsByClassName('slider-tooltip')[0];
-sliderTooltip.innerHTML = '2 generations'; // default to 2
+slider.value = defaultNumGens;
+sliderTooltip.innerHTML = `${defaultNumGens} generations`; 
+
 
 slider.addEventListener('input', () => {
     sliderTooltip.innerHTML = `${slider.value} generations`;
 
     updateSliderTootilp();
+
+    drawFamily();
+
 });
 
 
@@ -52,10 +59,25 @@ function fetchFamilyTree() {
         var personIdExp = RegExp('^.{4}-.{3}$');
 
         // Filter out any funny data, which we have.
-        for(entry in json) {
-            idToIdx[entry] = people.length;
-            people.push(json[entry]);
+        for(id in json) {
+            
+            const person = json[id];
+            // if(!person.birthPlace || person.birthPlace === '') {
+            //     if(!person.deathPlace || person.deathPlace === ''){
+            //         peopleWithoutLocations[id] = person;
+            //         // console.log('adding person without location: ', person);
+            //         continue;
+            //     } else {
+            //         person.birthPlace = person.deathPlace;
+            //     }
+            // }
+            idToIdx[id] = people.length;
+            people.push(person);
         }
+        console.log(" Num People: ", people.length);
+        console.log(" Num People w/o locations: ", Object.keys(peopleWithoutLocations).length);
+
+        growGeneration(0, 'KWHY-L6R');
 
         console.log('fetching geocodes');
 
@@ -81,15 +103,59 @@ function fetchFamilyTree() {
     });
 }
 
+const growGeneration =  (gen, id) => {
+    
+    if(!generations[gen]) {
+        while(!generations[gen]){
+            generations.push([]);
+        }
+    }
+    generations[gen].push(id);
+
+    const person = people[idToIdx[id]];
+    console.log("Added person to generation: ", gen, person.name, id);
+    // const nextGen = gen + 1;
+    if (!person.parentIds) {
+        return;
+    }
+    person.parentIds.forEach((parentId) => {
+        // IF the parent doesn't have a birth place - make it the same as the childs.
+        const parent = people[idToIdx[parentId]];
+        if (!parent.birthPlace) {
+            if (parent.deathPlace) {
+                parent.birthPlace = parent.deathPlace
+                parent.locationType = LOCATION_OF_DEATH;
+            } else {
+                parent.birthPlace = person.birthPlace;
+                parent.locationType = LOCATION_OF_CHILD;
+            }
+        }
+        growGeneration(gen + 1, parentId);
+    });
+
+    
+}
+
+
 function loadLocations() {
     d3.text("https://mspencev.github.io/familymap/geocodes.json", function (err, text) {
     // d3.text("geocodes.json", function (err, text) {
         geocodes = JSON.parse(text);
 
-        renderLines();
-        renderMarkers();
+        drawFamily();
     });
 
+}
+
+const clearFamily = () => {
+    d3.selectAll('.child-parent-line').remove();
+    d3.selectAll('.marker').remove();
+}
+
+const drawFamily = () => {
+    clearFamily();
+    renderLines();
+    renderMarkers();
 }
 
 let geocodeCalls = 0;
@@ -198,9 +264,17 @@ function gotAllResponses() {
 
 
 function renderMarkers() {
+    const data = [];
+    const numGens = parseInt(slider.value) + 1; // + 1 since 1 generation would be two layers of people.
+
+    for(let i = 0; i < numGens; ++i){
+        generations[i].forEach((id) => {
+            data.push(people[idToIdx[id]]);
+        });
+    }
     // add circles to group g
     g.selectAll("circle")
-        .data(people).enter()
+        .data(data).enter()
         .append("circle")
         .attr('class', 'marker')
         .attr("cx", (d) => { 
@@ -218,7 +292,7 @@ function renderMarkers() {
             }
             return projection( [latlon.lon, latlon.lat])[1]; })
         .attr('class', 'marker')
-        .attr('r', 3)
+        .attr('r', () => MARKER_RADIUS / currentTransform.k)
         .on("mouseover", (d) => {
             const tooltip = document.getElementById('tooltip');
             tooltip.classList.add('tooltip-active');
@@ -235,15 +309,16 @@ function renderLines() {
 
     let lines = getLines();
 
-    g.selectAll("line")
-        .data(lines).enter()
-        .append("line")
-        .attr('class', 'line')
-        .attr("x1", function (d) { return d.x1; })
-        .attr("y1", function (d) { return d.y1; })
-        .attr("x2", function (d) { return d.x2; })
-        .attr("y2", function (d) { return d.y2; })
-        .attr("class", function (d) { return d.isDad ? "line-dad" : "line-mom"; });
+    g.selectAll(".child-parent-line")
+        .data(lines)
+        .enter()
+            .append("line")
+            .attr("x1", function (d) { return d.x1; })
+            .attr("y1", function (d) { return d.y1; })
+            .attr("x2", function (d) { return d.x2; })
+            .attr("y2", function (d) { return d.y2; })
+            .attr('r', () => LINE_WIDTH / currentTransform.k)
+            .attr("class", function (d) { return `child-parent-line ${d.isDad ? 'line-dad' : 'line-mom'}`; });
 }
 
 
@@ -251,28 +326,31 @@ function renderLines() {
 function getLines() {
     let lines = [];
 
-    people.forEach( (person) => {
-        
-        if(!person.birthPlace || person.birthPlace === '') {
-            return;
-        }
-
-        if(!person.parentIds || !person.parentIds[0]) {
-            return;
-        }
-        
-        const parents = [];
-        person.parentIds.forEach((id) => {
-            parents.push(people[idToIdx[id]] );
-        });
-
-        parents.forEach( (parent) => {
-            if(!parent || !parent.birthPlace || parent.birthPlace === '') {
+    const numGens = parseInt(slider.value);
+    for(let i = 0; i < numGens; ++i){
+        generations[i].forEach((id) => {
+            const person = people[idToIdx[id]];
+           
+            if(!person.parentIds || !person.parentIds[0]) {
                 return;
             }
-            lines.push(createLine(parent, person));
+            
+            const parents = [];
+            person.parentIds.forEach((id) => {
+                parents.push(people[idToIdx[id]] );
+            });
+    
+            parents.forEach( (parent) => {
+                if(!parent || !parent.birthPlace || parent.birthPlace === '') {
+                    return;
+                }
+                lines.push(createLine(parent, person));
+            });
         });
-    });
+        
+    }
+
+ 
     return lines;
 }
 
@@ -297,5 +375,13 @@ function createLine(parent, child) {
         "parent": parent.name
     };
 }
+
+
+window.addEventListener('resize', () =>{
+    onResize(); // TODO ugly
+    updateSliderTootilp();
+    drawFamily();
+});
+
 
 fetchFamilyTree();
