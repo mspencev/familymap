@@ -62,20 +62,13 @@ function fetchFamilyTree() {
         for(id in json) {
             
             const person = json[id];
-            // if(!person.birthPlace || person.birthPlace === '') {
-            //     if(!person.deathPlace || person.deathPlace === ''){
-            //         peopleWithoutLocations[id] = person;
-            //         // console.log('adding person without location: ', person);
-            //         continue;
-            //     } else {
-            //         person.birthPlace = person.deathPlace;
-            //     }
-            // }
             idToIdx[id] = people.length;
             people.push(person);
         }
         console.log(" Num People: ", people.length);
         console.log(" Num People w/o locations: ", Object.keys(peopleWithoutLocations).length);
+
+        updateSliderTootilp();
 
         growGeneration(0, 'KWHY-L6R');
 
@@ -113,8 +106,7 @@ const growGeneration =  (gen, id) => {
     generations[gen].push(id);
 
     const person = people[idToIdx[id]];
-    console.log("Added person to generation: ", gen, person.name, id);
-    // const nextGen = gen + 1;
+
     if (!person.parentIds) {
         return;
     }
@@ -132,8 +124,6 @@ const growGeneration =  (gen, id) => {
         }
         growGeneration(gen + 1, parentId);
     });
-
-    
 }
 
 
@@ -156,6 +146,7 @@ const drawFamily = () => {
     clearFamily();
     renderLines();
     renderMarkers();
+    updateCount();
 }
 
 let geocodeCalls = 0;
@@ -261,7 +252,9 @@ function gotAllResponses() {
     return promiseTimeout(1000, gotAllPromise);
 }
 
-
+const updateCount = () => {
+    document.getElementById('people-count').innerHTML = document.getElementsByClassName('marker').length;
+}
 
 function renderMarkers() {
     const data = [];
@@ -317,7 +310,7 @@ function renderLines() {
             .attr("y1", function (d) { return d.y1; })
             .attr("x2", function (d) { return d.x2; })
             .attr("y2", function (d) { return d.y2; })
-            .attr('r', () => LINE_WIDTH / currentTransform.k)
+            .attr('stroke-width', () => LINE_WIDTH / currentTransform.k)
             .attr("class", function (d) { return `child-parent-line ${d.isDad ? 'line-dad' : 'line-mom'}`; });
 }
 
@@ -347,9 +340,7 @@ function getLines() {
                 lines.push(createLine(parent, person));
             });
         });
-        
     }
-
  
     return lines;
 }

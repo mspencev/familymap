@@ -12,50 +12,9 @@ body {
     flex: 1;
     height: 100%;
 }
-/* 
-body {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    background-color: #2A2C39;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
-    font-weight: 200;
-    font-size: 10px;
-} */
-/* #map-holder {
-  width: 100vw;
-  height: 100vh;
-} */
-
-
-/* svg rect {
-  fill: #2A2C39;   /* map background colour /
-}
-.country{
-  fill: #d0d0d0;   /* country colour /
-  stroke: #2A2C39; /* country border colour /
-  stroke-width: 1; /* country border width /
-}
-.country-on{
-  fill: #4B5358;   /* highlight colour for selected country /
-}
-.countryLabel{
-  display: none;   /* hide all country labels by default /
-  stroke: red;
-  pointer-events: none;
-}
-.countryName{
-  fill: #FFFAFF;   /* country label text colour *
-}
-.countryLabelBg{
-  /* fill: #30BCED;    /
-  opacity: 0;
-} */
-
-/*  from mbostock: */
 
 svg {
-    background: rgb(153, 221, 243);
+    background: #AADAFF;
     flex: 1;
   }
   
@@ -64,12 +23,14 @@ svg {
   }
   
   .land {
-    fill: rgb(97, 146, 103);
+    fill: #4c8a3c;
   }
   
   .boundary {
     fill: none;
-    stroke: #b4c5da;
+    /* stroke: #b4c5da; */
+    stroke: #4a4a4a;
+    opacity: 0.7;
     stroke-linejoin: round;
     stroke-linecap: round;
     vector-effect: non-scaling-stroke;
@@ -109,18 +70,15 @@ svg {
 
 line.line-dad {
   stroke: blue;
-  stroke-width: 1;
 }
 
 line.line-mom {
   stroke: red;
-  stroke-width: 1;
 }
 
 circle.marker {
   fill: red;
 }
-
 
 
 
@@ -167,8 +125,10 @@ circle.marker {
     margin-bottom: 0px;
     border-style: solid;
     border-width: 1px;
-/* 
-    align-items: center;
-    justify-content:center; */
+}
 
+.count-div {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
 }
