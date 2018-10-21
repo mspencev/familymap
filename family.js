@@ -36,11 +36,6 @@ updateSliderTootilp = () => {
     sliderTooltip.style.left = `${pixelPostion}px`;
 }
 
-//  var {formatFamilyData} = require('./formatFamilyData');
-
-// import formatFamilyData from './formatFamilyData.js';
-// import { log1, log2 } from './formatFamilyData.js';
-
 function fetchFamilyTree() {
 
     console.log('fetching family tree');
@@ -76,6 +71,7 @@ function fetchFamilyTree() {
 
         // fetchLocations();
         loadLocations();
+
 
         // gotAllResponses().then(() => {
         //     console.log("GOT ALL RESPONDED!");
@@ -132,9 +128,32 @@ function loadLocations() {
     // d3.text("geocodes.json", function (err, text) {
         geocodes = JSON.parse(text);
 
+        resolveOverlapLocations();
+
         drawFamily();
     });
 
+}
+
+const resolveOverlapLocations = () => {
+    
+    const locCount = {}; // count the number of instances of a particular location
+    people.forEach((person) => {
+        if(!person.birthPlace) {
+            return;
+        }
+
+        if(locCount[person.birthPlace]) {
+            locCount[person.birthPlace] =+ 1;
+            const newLat = geocodes[person.birthPlace].lat + locCount[person.birthPlace] * 0.05;
+            const newLon = geocodes[person.birthPlace].lon;
+
+            person.birthPlace = `${person.birthPlace}-${locCount[person.birthPlace]}`;
+            geocodes[person.birthPlace] = {'lat': newLat, 'lon': newLon};
+        } else {
+            locCount[person.birthPlace] = 1;
+        }
+    });
 }
 
 const clearFamily = () => {
@@ -269,7 +288,13 @@ function renderMarkers() {
     g.selectAll("circle")
         .data(data).enter()
         .append("circle")
-        .attr('class', 'marker')
+        .attr('class', (d) => {
+            if(d.gender === 'Male') {
+                return 'marker marker-dad'
+            } else {
+                return 'marker marker-mom'
+            }
+        })
         .attr("cx", (d) => { 
             const latlon = geocodes[d.birthPlace]; 
 
@@ -284,7 +309,6 @@ function renderMarkers() {
                 return projection(0, 0)[0];
             }
             return projection( [latlon.lon, latlon.lat])[1]; })
-        .attr('class', 'marker')
         .attr('r', () => MARKER_RADIUS / currentTransform.k)
         .on("mouseover", (d) => {
             const tooltip = document.getElementById('tooltip');

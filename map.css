@@ -69,16 +69,27 @@ svg {
 
 
 line.line-dad {
-  stroke: blue;
+  stroke: #0000a9;
+  opacity: 0.4;
 }
 
 line.line-mom {
-  stroke: red;
+  stroke: #c30000;
+  opacity: 0.4;
 }
 
 circle.marker {
-  fill: red;
+    opacity: 0.6;
 }
+
+circle.marker-dad {
+  fill: #0000a9;
+}
+
+circle.marker-mom {
+    fill: #c30000;
+  }
+  
 
 
 
@@ -113,7 +124,7 @@ circle.marker {
     bottom: 10px;
     left: 10px;
     text-align: center;
-    width: 85px;
+    width: 95px;
     height: 16px;
     font: 12px sans-serif;
     background: rgb(208, 210, 212);
