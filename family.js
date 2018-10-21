@@ -145,8 +145,8 @@ const resolveOverlapLocations = () => {
 
         if(locCount[person.birthPlace]) {
             locCount[person.birthPlace] =+ 1;
-            const newLat = geocodes[person.birthPlace].lat + locCount[person.birthPlace] * 0.05;
-            const newLon = geocodes[person.birthPlace].lon;
+            const newLat = geocodes[person.birthPlace].lat; // No change
+            const newLon = geocodes[person.birthPlace].lon + locCount[person.birthPlace] * 0.05;
 
             person.birthPlace = `${person.birthPlace}-${locCount[person.birthPlace]}`;
             geocodes[person.birthPlace] = {'lat': newLat, 'lon': newLon};
@@ -326,6 +326,20 @@ function renderLines() {
 
     let lines = getLines();
 
+    // For the arrows
+    g.append("svg:defs").selectAll("marker")
+        .data(["end"])      // Different link/path types can be defined here
+    .enter().append("svg:marker")    // This section adds in the arrows
+        .attr("id", String)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 15)
+        .attr("refY", -1.5)
+        .attr("markerWidth", 6)
+        .attr("markerHeight", 6)
+        .attr("orient", "auto")
+    .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5");
+
     g.selectAll(".child-parent-line")
         .data(lines)
         .enter()
@@ -335,7 +349,9 @@ function renderLines() {
             .attr("x2", function (d) { return d.x2; })
             .attr("y2", function (d) { return d.y2; })
             .attr('stroke-width', () => LINE_WIDTH / currentTransform.k)
-            .attr("class", function (d) { return `child-parent-line ${d.isDad ? 'line-dad' : 'line-mom'}`; });
+            .attr("class", function (d) { return `child-parent-line ${d.isDad ? 'line-dad' : 'line-mom'}`; })
+            .attr("marker-end", "url(#end)");
+
 }
 
 
